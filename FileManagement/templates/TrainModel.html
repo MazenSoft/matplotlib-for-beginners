@@ -1,0 +1,109 @@
+<h2>تحميل ملف</h2>  
+<p class="lead">يرجى تحديد أو اختيار الملف</p>  
+
+<form id="file-upload-form" class="uploader" enctype="multipart/form-data">  
+    {% csrf_token %}  
+    <input id="file-upload" type="file" name="fileUpload" accept=".doc,.docx,.pdf"/>  
+
+    <label for="file-upload" id="file-drag">  
+        <img id="file-image" src="#" alt="معاينة" class="hidden">  
+        <div id="start">  
+            <i class="fa fa-download" aria-hidden="true"></i>  
+            <div>اختر ملفًا أو اسحبه هنا</div>  
+            <div id="notimage" class="hidden">يرجى اختيار ملف Word أو PDF فقط</div>  
+            <span id="file-upload-btn" class="btn btn-primary">اختر ملفًا</span>  
+        </div>  
+        <div id="response" class="hidden">  
+            <div id="messages"></div>  
+            <progress class="progress" id="file-progress" value="0">  
+                <span>0</span>%  
+            </progress>  
+        </div>  
+    </label>  
+    <br><br>  
+    <button type="button" id="submit-btn" class="btn btn-success">تدريب النموذج</button>  
+</form>  
+
+
+<div id="message"></div>   
+
+<script>
+    $(document).ready(function() {  
+        $('#submit-btn').click(function() {   
+            var file = $('#file-upload')[0].files[0]; // استرجاع الملف من حقل الإدخال  
+    
+            // تحقق من وجود ملف  
+            if (!file) {  
+                swal("خطأ!", "يرجى تحميل ملف ليتم تدريبه.", "error");  
+                return;  
+            }  
+    
+            var reader = new FileReader();  
+            reader.onload = function(event) {  
+                var content = event.target.result;  
+                // تحقق من محتوى الملف  
+                if (!content.trim()) {  
+                    swal("خطأ!", "الملف الذي تم تحميله فارغ. يرجى تحميل ملف يحتوي على بيانات نصية.", "error");  
+                    return;  
+                }  
+    
+                // إذا كانت جميع الشروط صحيحة، قم بإرسال النموذج يدويًا  
+                $('#messages').html('جاري تدريب النموذج <span class="dots" style="display:inline-block;"></span>');  
+                var formData = new FormData($('#file-upload-form')[0]);  
+                
+                // إرسال الطلب باستخدام Axios  
+                axios.post('/train-model/', formData, {  
+                    headers: {  
+                        'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val(), // تأكد من وجود CSRF token  
+                        'Content-Type': 'multipart/form-data' // هذا مهم عند رفع الملفات  
+                    }  
+                })  
+                .then(function(response) {  
+                    $('#messages').html('<p>' + response.data.getmess + '</p>');  
+        
+                    if (response.data.training_info) {  
+                        // تحديث النتائج في جدول النتائج  
+                        $('#results-table-show').remove();  // إزالة أي جدول موجود سابقًا  
+                        const resultTable = `  
+                            <h2>النتائج</h2>  
+                            <table id="results-table-show">  
+                                <thead>  
+                                    <tr>  
+                                        <th>وقت التدريب</th>  
+                                        <th>عدد العينات في الثانية</th>  
+                                        <th>خسارة التدريب</th>  
+                                        <th>عدد الدورات (Epoch)</th>  
+                                    </tr>  
+                                </thead>  
+                                <tbody>  
+                                    <tr>  
+                                        <td>${response.data.training_info.train_runtime}</td>  
+                                        <td>${response.data.training_info.train_samples_per_second}</td>  
+                                        <td>${response.data.training_info.train_loss}</td>  
+                                        <td>${response.data.training_info.epoch}</td>  
+                                    </tr>  
+                                </tbody>  
+                            </table>  
+                        `;  
+                        $('#message').append(resultTable); // إضافة جدول النتائج إلى الرسائل  
+                    }  
+                })  
+                .catch(function(error) {   
+                    $('#messages').html('<p>حدث خطأ! حاول مرة أخرى.</p>');  
+                });  
+                
+                // إظهار حالة التدريب قبل إرسال الطلب  
+                $('#message').show();  
+                $('#message').empty();  
+            };  
+        
+            reader.onerror = function() {  
+                swal("خطأ!", "حدثت مشكلة أثناء قراءة الملف. يرجى التحقق من الملف.", "error");  
+            };  
+    
+            reader.readAsText(file); // قراءة محتوى الملف كنص  
+        });  
+    });
+
+
+</script>

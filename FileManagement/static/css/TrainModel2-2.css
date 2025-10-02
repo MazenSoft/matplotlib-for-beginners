@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');  
+  
+:root {  
+    --theme: #454cad;   
+    --dark-text: #5f6982;  
+}  
+
+.TrainModel2-style h2 {
+    margin: 22px 0px 10px;
+}
+
+.TrainModel2-style p {  
+    font-family: "Roboto", sans-serif;  
+    font-size: 18px;  
+    color: var(--dark-text);  
+    margin-bottom: 20px;  
+}  
+
+
+.uploader {  
+    display: block;  
+    clear: both;  
+    margin: 0 auto;  
+    width: 100%;  
+    max-width: 600px;  
+}  
+
+.uploader #custom-file-drag {  /* تم التغيير هنا */  
+    float: left;
+    clear: both;
+    width: 50%;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    background: #fff;
+    border-radius: 7px;
+    border: 3px solid #eee;
+    transition: all .2s ease;
+    user-select: none; 
+}  
+
+.uploader #custom-file-drag:hover {  /* تم التغيير هنا */  
+    border-color: var(--theme);  
+}  
+
+.uploader #custom-file-drag.hover {  /* تم التغيير هنا */  
+    border: 3px solid var(--theme);  
+    box-shadow: inset 0 0 0 6px #eee;  
+}  
+
+.uploader #custom-start {  /* تم التغيير هنا */  
+    float: left;  
+    clear: both;  
+    width: 100%;  
+}  
+
+.uploader #custom-start.hidden {  /* تم التغيير هنا */  
+    display: none;  
+}  
+
+.uploader #custom-start i.fa {  /* تم التغيير هنا */  
+    font-size: 50px;  
+    margin-bottom: 1rem;  
+    transition: all .2s ease-in-out;  
+}  
+
+.uploader #custom-response { /* تم التغيير هنا */  
+    float: left;  
+    clear: both;  
+    width: 100%;  
+}  
+
+.uploader #custom-response.hidden { /* تم التغيير هنا */  
+    display: none;  
+}  
+
+.uploader #custom-response #custom-messages { /* تم التغيير هنا */  
+    margin-bottom: .5rem;  
+    overflow: hidden;  
+}  
+
+.uploader #custom-file-image {  /* تم التغيير هنا */  
+    display: inline;  
+    margin: 0 auto .5rem auto;  
+    width: auto;  
+    height: auto;  
+    max-width: 180px;  
+}  
+
+.uploader #custom-file-image.hidden {  /* تم التغيير هنا */  
+    display: none;  
+}  
+
+.uploader #custom-notimage {  /* تم التغيير هنا */  
+    display: block;  
+    float: left;  
+    clear: both;  
+    width: 100%;  
+}  
+
+.uploader #custom-notimage.hidden {  /* تم التغيير هنا */  
+    display: none;  
+}  
+
+progress,  
+.uploader .progress {  
+    display: inline;  
+    clear: both;  
+    margin: 0 auto;  
+    width: 100%;  
+    max-width: 180px;  
+    height: 8px;  
+    border: 0;  
+    border-radius: 4px;  
+    background-color: #eee;  
+    overflow: hidden;  
+}  
+
+
+.progress[value]::-webkit-progress-bar {  
+    border-radius: 4px;  
+    background-color: #eee;  
+}  
+
+.progress[value]::-webkit-progress-value {  
+    background: linear-gradient(to right, darken(var(--theme), 8%) 0%, var(--theme) 50%);  
+    border-radius: 4px;   
+}  
+
+.progress[value]::-moz-progress-bar {  
+    background: linear-gradient(to right, darken(var(--theme), 8%) 0%, var(--theme) 50%);  
+    border-radius: 4px;   
+}  
+
+input[type="file"] {  
+    display: none;  
+}  
+
+.uploader div {  
+    margin: 0 0 .5rem 0;  
+    color: var(--dark-text);  
+}  
+
+.uploader .btn {  
+    display: inline-block;  
+    margin: .5rem .5rem 1rem .5rem;  
+    clear: both;  
+    font-family: inherit;  
+    font-weight: 700;  
+    font-size: 14px;  
+    text-decoration: none;  
+    text-transform: initial;  
+    border: none;  
+    border-radius: .2rem;  
+    outline: none;  
+    padding: 0 1rem;  
+    height: 36px;  
+    line-height: 36px;  
+    color: #fff;  
+    transition: all 0.2s ease-in-out;  
+    box-sizing: border-box;  
+    background: var(--theme);  
+    border-color: var(--theme);  
+    cursor: pointer;  
+}   
+    
+
+.get-model-style {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+input#Poet-name {
+    height: 30px;
+    width: 300px;
+    margin-right: 20px;
+    padding-right: 10px;
+}
+
+.dots {  
+    font-size: 20px;   
+    margin-left: 5px;  
+}   
+
+table {  
+    width: 100%;  
+    border-collapse: collapse;  
+    direction: rtl;  
+}  
+
+th, td {  
+    border: 1px solid #ccc;  
+    padding: 8px;  
+    text-align: right;  
+}  
+
+th {  
+    background-color: #f2f2f2;  
+}  
+
+#results-table {  /* تم التغيير هنا */  
+    display: none;   
+}  
+
+
+section.TrainModel2-style {
+    text-align: center;
+}

@@ -1,0 +1,87 @@
+<br>   
+<h2>يرجى إدخال البيانات المطلوبة</h2>  
+<form id="data-input-form" class="uploader" enctype="multipart/form-data">  
+    {% csrf_token %}  
+    <textarea id="user-text-input" name="user_input_text" rows="10" cols="50" placeholder="اكتب هنا..." style="resize: none;"></textarea>  
+    <br>  
+    <button type="button" id="execute-button" class="btn btn-success">تنفيذ</button>   
+</form>  
+
+<div id="response-message" style="margin-top: 20px;"></div>  
+<br>   
+<div id="resultTableContainer"></div>  
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>  
+<script>  
+    $(document).ready(function() {  
+        $('#execute-button').click(function() {  
+            var userInputText = $('#user-text-input').val().trim(); // الحصول على قيمة النص   
+    
+            // تحقق من أن حقل النص ليس فارغًا  
+            if (!userInputText) {  
+                swal("خطأ!", "يرجى إدخال نص.", "error");  
+                return; // إن لم يكن هناك نص، يتم إيقاف العملية  
+            }  
+    
+            // إذا كانت المدخلات صحيحة، نتابع  
+            var formData = new FormData($('#data-input-form')[0]);  
+            
+            // عرض رسالة معالجة البيانات  
+            $('#response-message').html('جاري معالجة البيانات...').show();  
+    
+            // إرسال الطلب باستخدام Axios  
+            axios.post('/using-model2/', formData, {  
+                headers: {  
+                    'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val(),  
+                    'Content-Type': 'multipart/form-data'  
+                }  
+            })  
+            .then(function(response) {  
+                $('#response-message').empty(); // مسح الرسالة السابقة  
+                
+                if (response.data.getmess) {  
+                    $('#response-message').html('<h3>' + response.data.getmess + '</h3>');  
+                    $('#results-table2').remove();
+                }  
+                
+                if (response.data.results && response.data.results.length > 0) {  
+                    $('#response-message').append('<h2>النتائج</h2>');  
+                    
+                    $('#results-table2').remove(); // إزالة أي جدول موجود سابقًا  
+                    const resultTable = `  
+                        <table id="results-table2">  
+                            <thead>  
+                                <tr>  
+                                    <th>اسم الشاعر</th>  
+                                    <th>نسبة التشابه</th>  
+                                </tr>  
+                            </thead>  
+                            <tbody id="results-body2">  
+                            </tbody>  
+                        </table>  
+                    `;  
+                    $('#resultTableContainer').append(resultTable);  
+                    
+                    // تعبئة جدول النتائج  
+                    response.data.results.forEach(function(result) {  
+                        const row = `<tr>  
+                                        <td>${result.poet_name}</td>  
+                                        <td>${result.similarity_score.toFixed(4)}</td> <!-- تنسيق نسبة التشابه إلى 4 أرقام عشرية -->  
+                                    </tr>`;  
+                        $('#results-body2').append(row); // إضافة الصف إلى tbody  
+                    });  
+                } else {  
+                    $('#response-message').append('<h3>لا توجد نتائج لعرضها.</h3>');  
+                }  
+            })  
+            .catch(function(error) {  
+                let errorMessage = 'حدث خطأ! حاول مرة أخرى.';  
+                if (error.response) {  
+                    errorMessage = error.response.data.error || errorMessage; // عرض رسالة الخطأ من الخادم إن وجدت  
+                }  
+                $('#response-message').html('<p>' + errorMessage + '</p>').show();  
+            });  
+        });    
+    });  
+</script>

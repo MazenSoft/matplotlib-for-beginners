@@ -1,0 +1,12 @@
+section.UsingModel2-style {
+    text-align: center;
+}
+
+.UsingModel2-style h2 {
+    margin: 6px 0px 20px;
+}
+
+div#resultTableContainer {
+    width: 60%;
+    margin: auto;
+}

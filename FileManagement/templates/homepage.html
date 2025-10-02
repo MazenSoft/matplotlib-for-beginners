@@ -1,0 +1,126 @@
+{% load static %}  
+<html lang="ar">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>صفحة استخدام النموذج</title>  
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Home-style-ss.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/TrainModels.css' %}">  
+    <link rel="stylesheet" type="text/css" href="{% static 'css/TrainModel2-2.css' %}">  
+    <link rel="stylesheet" type="text/css" href="{% static 'css/UsingModel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/UsingModel2.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">       
+
+</head>  
+
+<body>  
+    <main>  
+        <nav class="main-menu">  
+            <h1>Fitness App</h1>  
+            <img class="logo" src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/4cfdcb5a-0137-4457-8be1-6e7bd1f29ebb" alt="Logo" />  
+            <ul>  
+                <li class="nav-item" onclick="showContent('home')">  
+                    <b></b>  
+                    <b></b>  
+                    <a href="#">  
+                        <i class="fa fa-house nav-icon"></i>  
+                        <span class="nav-text">Home</span>  
+                    </a>  
+                </li>  
+                <li class="nav-item" onclick="showContent('Sentence-classification')">  
+                    <b></b>  
+                    <b></b>  
+                    <a href="#">  
+                        <i class="fa fa-user nav-icon"></i>  
+                        <span class="nav-text">تصنيف الجمل</span>  
+                    </a>  
+                </li>  
+                <li class="nav-item" onclick="showContent('Classification-poets')">  
+                    <b></b>  
+                    <b></b>  
+                    <a href="#">  
+                        <i class="fa fa-calendar-check nav-icon"></i>  
+                        <span class="nav-text">تصنيف الشعراء</span>  
+                    </a>  
+                </li>  
+            </ul>  
+        </nav>  
+
+        <section class="content">  
+            {% comment %} // homepage {% endcomment %}
+            <div id="home" class="show-content" style="display: block;">  
+                <section class="content-box">  
+                    <div class="contener-style" onclick="showContent('Sentence-classification')">  
+                        <i class="fas fa-file-signature nav-icon"></i> 
+                        <a href="#"><p> تصنيف الجمل</p></a>  
+                    </div>  
+                    <div class="contener-style" onclick="showContent('Classification-poets')">  
+                        <i class="fas fa-user-pen nav-icon"></i>  
+                        <a href="#"><p> تصنيف الشعراء</p></a>  
+                    </div>  
+                </section>  
+            </div>  
+             {% comment %} home item 1 {% endcomment %}
+            <div id="Sentence-classification" class="show-content" style="display: none;">  
+                <section class="content-box">  
+                    <div class="contener-style" onclick="showContent('TrainModel')">  
+                        <i class="fas fa-laptop-code"></i>  
+                        <a href="#"><p> تدريب النموذج </p></a>  
+                    </div>  
+                    <div class="contener-style" onclick="showContent('UsingModel')">  
+                        <i class="fas fa-comments-dollar"></i>
+                        <a href="#"><p> استخدام النموذج </p></a>  
+                    </div>  
+                </section>    
+            </div>    
+             {% comment %} home item 1 item 1 {% endcomment %}
+            <div id="TrainModel" class="show-content" style="display: none;">
+                <section class="TrainModel-style"> 
+                    {% include 'TrainModel.html' %} 
+                </section>
+            </div> 
+             {% comment %} home item 1 item 2 {% endcomment %}
+            <div id="UsingModel" class="show-content" style="display: none;">
+                <section class="UsingModel-style"> 
+                    {% include 'UsingModel.html' %} 
+                </section>
+            </div>
+            
+            {% comment %} home item 2 {% endcomment %}
+            <div id="Classification-poets" class="show-content" style="display: none;">  
+                <section class="content-box">  
+                    <div class="contener-style" onclick="showContent('TrainModel2')">  
+                        <i class="fas fa-laptop-code"></i>  
+                        <a href="#"><p> تدريب النموذج </p></a>  
+                    </div>  
+                    <div class="contener-style" onclick="showContent('UsingModel2')">  
+                        <i class="fas fa-comments-dollar"></i>
+                        <a href="#"><p> استخدام النموذج </p></a>  
+                    </div>   
+            </div>
+
+             {% comment %} home item 2 item 1 {% endcomment %}
+             <div id="TrainModel2" class="show-content" style="display: none;">
+                <section class="TrainModel2-style"> 
+                    {% include 'TrainModel2.html' %} 
+                </section>
+            </div> 
+             {% comment %} home item 2 item 2 {% endcomment %}
+            <div id="UsingModel2" class="show-content" style="display: none;">
+                <section class="UsingModel2-style"> 
+                    {% include 'UsingModel2.html' %} 
+                </section>
+            </div>
+
+        </section>  
+    </main>  
+
+    <script src="{% static 'js/Home.js' %}"></script>  
+    <script src="{% static 'js/TrainModel.js' %}"></script>  
+    <script src="{% static 'js/TrainModel2.js' %}"></script>  
+</body>  
+</html>

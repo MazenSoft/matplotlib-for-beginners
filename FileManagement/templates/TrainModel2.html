@@ -1,0 +1,108 @@
+<h2>تحميل ملف</h2>  
+<p class="lead">يرجى ادخال نص او اختيار الملف</p>  
+
+<form id="custom-file-upload-form" class="uploader" enctype="multipart/form-data">  
+    {% csrf_token %} 
+    <div class="get-model-style">
+        <textarea id="custom-textarea-input" name="custom-textarea_input" rows="10" cols="50" placeholder="اكتب هنا..." style="resize: none;"></textarea>
+    <input id="custom-file-upload" type="file" name="custom-file-upload" accept=".doc,.docx,.pdf"/>  
+    <label for="custom-file-upload" id="custom-file-drag">  
+        <img id="custom-file-image" src="#" alt="معاينة" class="hidden">  
+        <div id="custom-start">  
+            <i class="fa fa-download" aria-hidden="true"></i>  
+            <div>اختر ملفًا أو اسحبه هنا</div>  
+            <div id="custom-notimage" class="hidden">يرجى اختيار ملف Word أو PDF فقط</div>  
+            <span id="custom-file-upload-btn" class="btn btn-primary">اختر ملفًا</span>  
+        </div>  
+        <div id="custom-response" class="hidden">  
+            <div id="custom-messages"></div>  
+            <progress class="progress" id="custom-file-progress" value="0">  
+                <span>0</span>%  
+            </progress>  
+        </div>  
+    </label> 
+    </div> 
+      
+    
+      
+    <br>  
+    <label > ادخل اسم الشاعر </label>
+    <input type="text" id="Poet-name" placeholder="ادخل اسم الشاعر" name="custom-Poet-name">  
+    <br><br>  
+
+    <button type="button" id="custom-submit-btn" class="btn btn-success">تدريب النموذج</button>  
+</form>  
+ 
+<div id="custom-messages-show"></div> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>   
+<script>  
+    $(document).ready(function() {  
+        $('#custom-submit-btn').click(function() {   
+            var file = $('#custom-file-upload')[0].files[0]; // استرجاع الملف من حقل الإدخال  
+            var text = $('#custom-textarea-input').val().trim(); // إضافة () لاسترجاع القيمة  
+            var name = $('#Poet-name').val().trim(); // إضافة () لاسترجاع القيمة  
+
+            // تحقق من وجود نص واسم الشاعر  
+            if (!file && !text) {  
+                swal("خطأ!", "يرجى إدخال بيت شعري او اختيار ملف ليتم تدريبه.", "error");  
+                return;  
+            }  
+            if (!name) {  
+                swal("خطأ!", "يرجى كتابة اسم الشاعر.", "error");  
+                return;  
+            }  
+
+            // الإعداد لإرسال البيانات  
+            var formData = new FormData($('#custom-file-upload-form')[0]);  
+
+            // إذا كان هناك ملف، تحقق من محتوى الملف  
+            if (file) {  
+                var reader = new FileReader();  
+                reader.onload = function(event) {  
+                    var content = event.target.result;  
+                    // تحقق من محتوى الملف  
+                    if (!content.trim()) {  
+                        swal("خطأ!", "الملف الذي تم تحميله فارغ. يرجى تحميل ملف يحتوي على بيانات نصية.", "error");  
+                        return;  
+                    }  
+                    
+                    // إرسال الطلب باستخدام Axios  
+                    sendData(formData);  
+                };  
+
+                reader.onerror = function() {  
+                    swal("خطأ!", "حدثت مشكلة أثناء قراءة الملف. يرجى التحقق من الملف.", "error");  
+                };  
+
+                reader.readAsText(file); // قراءة محتوى الملف كنص  
+            } else {  
+                // إذا لم يكن هناك ملف، أرسل البيانات مباشرة  
+                sendData(formData);  
+            }  
+
+            function sendData(formData) {  
+                $('#custom-messages-show').html('جاري تدريب النموذج <span class="dots" style="display:inline-block;"></span>');  
+
+                // إرسال الطلب باستخدام Axios  
+                axios.post('/train-model2/', formData, {  
+                    headers: {  
+                        'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val(), // تأكد من وجود CSRF token  
+                    }  
+                })  
+                .then(function(response) {  
+                    $('#custom-messages-show').html('<h2>' + response.data.getmess + '</h2>');
+                    $('#custom-file-upload').val(''); // تفريغ حقل الملف
+                    $('#custom-textarea-input').val(''); // تفريغ حقل النص
+                    $('#Poet-name').val(''); // تفريغ حقل اسم الشاعر
+                    // إعادة تعيين حقل الملف (لضمان تفريغه بشكل صحيح)
+                    $('#custom-file-upload').replaceWith($('#custom-file-upload').clone()); 
+                    
+                })  
+                .catch(function(error) {   
+                    $('#custom-messages-show').html('<h2>حدث خطأ! حاول مرة أخرى.</h2>');  
+                });  
+            }  
+        });  
+    });  
+</script>

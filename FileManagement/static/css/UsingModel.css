@@ -1,0 +1,48 @@
+
+
+.sentence_count input[type="number"] {
+    margin-top: 25px;
+    margin-right: 18px;
+    outline: none;
+    height: 30px;
+    width: 277px;
+}
+.sentence_count label{
+  font-size: larger;
+}
+table {  
+    width: 100%;  
+    border-collapse: collapse;  
+    direction: rtl;
+}  
+th, td {  
+    border: 1px solid #ccc;  
+    padding: 8px;  
+    text-align: right;  
+}  
+th {  
+    background-color: #f2f2f2;  
+}  
+#result-table {  
+    display: none;   
+}  
+
+button#submit-button {
+    margin-top: 25px;
+    width: 420px;
+    height: 37px;
+    background: #27afe2;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    color: white;
+}
+
+.UsingModel-style textarea {
+    margin: 20px 0px 0px;
+    padding: 10px;
+}
+
+.UsingModel-style  {
+  text-align: center;
+}
